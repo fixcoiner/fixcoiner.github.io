@@ -37,16 +37,16 @@ I believe that low cost is itself a major risk to Bitcoin. If thousands of publi
 
 ## Steps
 
-At a high level, the process was straightforward once the infrastructure model was clear.
+The mechanics were not exotic. They were mostly standard infrastructure, applied in a way that the Bitcoin network was not prepared for.
 
-1. Establish conventional network infrastructure capable of supporting a large public node footprint.
-2. Build the server platform and storage layer to support large numbers of lightweight node instances efficiently.
-3. Deploy and fully synchronize a baseline Bitcoin node that can serve as the source image for expansion.
-4. Design the outbound path so node identity and address behavior on the network are controlled intentionally rather than left to defaults.
-5. Expand from the baseline node into many linked instances while minimizing disk and memory overhead through shared storage techniques.
-6. Coordinate outbound connectivity across the fleet so the node population presents consistently and predictably to the broader network.
-7. Stand up inbound front-end infrastructure so a large public address footprint can be terminated and distributed back to the underlying node instances.
-8. Let the system run and observe how quickly the network begins interacting with the deployed footprint.
+1. Establish typical network infrastructure: BGP sessions with transit provider(s), route advertisements, downstream topology to the nodes, and the rest of the ordinary network engineering needed to support the footprint.
+2. Stand up Proxmox on the servers with ZFS storage, ZFS deduplication, and the host ready to run LXC containers.
+3. Deploy a Bitcoin node in an LXC container and let the full blockchain sync complete.
+4. Stand up a forward proxy to seed the full public IP footprint onto the Bitcoin network, and policy-route TCP source port `8333` toward that proxy.
+5. Create `12` to `36` linked clones of the synchronized Bitcoin node, using ZFS linked clones with deduplication enabled. I also strongly recommend forcing roughly `128G` to `192G` of ZFS ARC in memory.
+6. Configure those Bitcoin nodes to use the outbound forward proxy for proper IP seeding. In my case, `dante` and `haproxy` worked well for distributing outbound connections across the available IP space.
+7. Stand up `4` to `8` inbound reverse proxies, again with `haproxy`, listening on the public IP addresses and forwarding inbound connections back toward the `12` to `36` linked clones.
+8. Let it run. Once it is built correctly, the amount of Bitcoin traffic it attracts makes the point on its own.
 
 This page will continue to expand with more implementation detail, evidence, and analysis over time.
 
