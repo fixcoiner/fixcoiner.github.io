@@ -3,7 +3,7 @@ ver 1.0  03/27/2026
 
 ## Public Disclosure
 
-For more than two years, I have been building and operating a large-scale Bitcoin node fleet to test a network-layer weakness in Bitcoin's visible peer-to-peer topology.
+For more than two years, I have been building and operating a large-scale Bitcoin node fleet to test and prove a network-layer weakness in Bitcoin's visible peer-to-peer topology.
 
 The question was simple: **how hard is it for one operator, using ordinary infrastructure and a non-exotic budget, to occupy a meaningful share of the public node surface and influence which peers other nodes discover and connect to?**
 
@@ -122,7 +122,7 @@ It also means that discussions about decentralization should spend more time on 
 There is no clean or cost-free mitigation, but there are at least several directions that seem worth serious consideration.  Once again I am not a software developer, so I will only present my infrastructure level recommendations:
 
 1. **Increase independent occupation of the public node surface.** If one of the risks is that too few actors occupy too much of the visible network, then one practical response is for more truly independent operators to stand up more public infrastructure.  This effectively means other people need to stand up a similar infrastructure.
-2. **Drastically increase default outbound connection counts.** I'm aware of the counter arguments to this that it will eat up too many inbound connection counts on smaller nodes.  To me that means the scale and capacity of each node also needs to increase.
+2. **Drastically increase default outbound connection counts.** I'm aware of the counter arguments to this that it will eat up too many inbound connection slots on smaller nodes.  To me that means the scale and capacity of each node also needs to increase.
 
 ## Details & playbooks
 
