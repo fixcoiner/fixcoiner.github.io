@@ -1,21 +1,23 @@
 ---
-layout: default
-title: Fixcoiner
 ---
-
-# Fixcoiner
-
-A public record of what I have done with Bitcoin infrastructure, networking, and nodes over the last two years.
-
-This site is intended to become a detailed public disclosure of the work, the flaw, the infrastructure behind it, the costs, the failed disclosure attempts, and the evidence I gathered over the last two years. I want the public record to be complete enough that the scale, seriousness, and implications of the issue can be evaluated directly.
 
 ## Purpose
 
 Two recent posts on X made it clear to me that it is time to fully disclose this work in public. One was Luke Dashjr arguing that the Bitcoin network is catastrophically centralized. The other was Jameson Lopp pointing to what appears to be a Sybil attack against the Bitcoin network. From my perspective, both observations reflect real conditions, and parts of both connect to work I have done over the last two years.
 
+![Luke Dashjr post on X arguing that the Bitcoin network is already catastrophically centralized](luketweet.png)
+
+*Luke Dashjr arguing that the network is already past catastrophic node centralization.*
+
+![Jameson Lopp post on X pointing to what appears to be a Sybil attack visible in node count data](lopptweet.png)
+
+*Jameson Lopp pointing to what appears to be a Sybil attack in public node-count observations.*
+
 More than two years ago, I found myself with extra time and decided to contribute to something I had believed in for many years: Bitcoin. I did not come into this as a software developer, and I still do not claim to understand every layer of Bitcoin. What I do understand is production infrastructure: network, systems, security, and availability. That is where I focused. I approached Bitcoin nodes as infrastructure behind a critical system, and I started looking at them the way I would look at any other high-value production environment.
 
 After a few weeks of digging in, I found a flaw that, as far as I could tell, had not been properly explored. In the networking layers around Bitcoin Core, assumptions had been made about how Internet numbering and resources work. Those assumptions were not accurate, and because of that, there was a serious weakness in how nodes decide to communicate with each other.
+
+Part of the issue is that there seems to be an implicit assumption that a single actor running a large number of nodes will not show up across more than one or two `/16` network boundaries, or beyond one or two ASNs. That assumption is not accurate. In my case, I leased and purchased a mix of twelve `/24` prefixes, none of which shared the same `/16` boundary, and those prefixes could be originated across multiple ASNs. That means the visible network footprint can look far more distributed than it really is, and it also shows the limits of relying too heavily on ASN-based mapping heuristics like `asmap` as a defense.
 
 This stopped feeling like a normal bug report pretty quickly. It turned into a security dilemma. Once a vulnerability like this exists, and there is no trusted way to shut it down, everyone has an incentive to prove it, use it, defend against it, or get there before the other side does. That is part of what makes it dangerous. Even people who think they are acting defensively can end up feeding the same cycle.
 
