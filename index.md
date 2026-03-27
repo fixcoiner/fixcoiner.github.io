@@ -3,15 +3,15 @@
 
 ## Purpose
 
-Two recent posts on X made it clear to me that it is time to fully disclose this work in public. One was Luke Dashjr arguing that the Bitcoin network is catastrophically centralized. The other was Jameson Lopp pointing to what appears to be a Sybil attack against the Bitcoin network. From my perspective, both observations reflect real conditions, and parts of both connect to work I have done over the last two years.
+Two recent posts on X made it clear to me that it is time to fully disclose this work in public. One was Luke Dashjr arguing that the Bitcoin network is catastrophically centralized. The other was Jameson Lopp pointing to what appeared to be a Sybil attack against the Bitcoin network. From my perspective, both observations were effectively correct, but there is nothing nefarious going on here. These roughly 3,000 nodes were not new. What Jameson was seeing was largely me changing versions across the fleet to signal my support for `BIP110`, which is a separate topic entirely.
 
 ![Luke Dashjr post on X arguing that the Bitcoin network is already catastrophically centralized](luketweet.png)
 
-*Luke Dashjr arguing that the network is already past catastrophic node centralization.*
+*Luke Dashjr calling out what he sees as catastrophic node centralization.*
 
 ![Jameson Lopp post on X pointing to what appears to be a Sybil attack visible in node count data](lopptweet.png)
 
-*Jameson Lopp pointing to what appears to be a Sybil attack in public node-count observations.*
+*Jameson Lopp reacting to public node-count data that changed visibly when I rolled version changes across an already-existing fleet.*
 
 More than two years ago, I found myself with extra time and decided to contribute to something I had believed in for many years: Bitcoin. I did not come into this as a software developer, and I still do not claim to understand every layer of Bitcoin. What I do understand is production infrastructure: network, systems, security, and availability. That is where I focused. I approached Bitcoin nodes as infrastructure behind a critical system, and I started looking at them the way I would look at any other high-value production environment.
 
@@ -55,6 +55,13 @@ This page will continue to expand with more implementation detail, evidence, and
 ## Details & Playbooks
 
 This section will hold the technical detail, operational notes, and repeatable playbooks.
+
+### Ways to Mitigate
+
+There is no clean or cost-free mitigation here, but there are at least two obvious directions.
+
+1. Bitcoin Core and Knots could raise the default outbound connection count from roughly `8` to `16` today to something more like `48` or higher. That would make it harder for a smaller visible footprint to shape peer selection, but it would also increase the load placed on every node.
+2. More independent operators need to stand up similar infrastructure at scale as a way of re-decentralizing the visible node network. If one of the core problems is that a single actor can cheaply represent too much of the public node surface, then one of the only practical counters is for many more independent actors to occupy that surface.
 
 ## Status
 
